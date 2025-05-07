@@ -17,12 +17,13 @@ function Cart() {
 
   const handleCheckout = () => {};
 
+  let newCart = [];
   const handleReduce = (e) => {
-    let newCart = cart.map((order) => {
-      if (order.name === e.target.id) {
+    cart.map((order) => {
+      if (order.title === e.target.id) {
         let newQty = order.qty - 1;
         if (newQty >= 0) {
-          return { ...order, qty: newQty };
+          return newCart.push({ ...order, qty: newQty });
         } else {
           return order;
         }
@@ -72,7 +73,7 @@ function Cart() {
                   <tr key={idx}>
                     <td>{item.qty} X </td>
                     <td>${item.price} </td>
-                    <td>{item.name} </td>
+                    <td>{item.title} </td>
                     <td>{item.qty * item.price} </td>
                     <td>
                       <Button

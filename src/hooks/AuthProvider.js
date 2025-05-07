@@ -42,6 +42,10 @@ export default function AuthProvider({ children }) {
     setCart([...cart, obj]);
   };
 
+  const resetCart = (arr) => {
+    setCart(arr);
+  };
+
   const removeItemsFromCart = (obj) => {
     setCart(obj);
   };
@@ -55,6 +59,7 @@ export default function AuthProvider({ children }) {
         cart,
         updateCart,
         removeItemsFromCart,
+        resetCart,
       }}
     >
       {children}
