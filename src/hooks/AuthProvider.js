@@ -3,9 +3,10 @@ import { useContext, createContext, useState } from "react";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("email") || null);
   const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
   const [cart, setCart] = useState([]);
+
   const loginAction = async (obj) => {
     try {
       const response = await fetch(
@@ -18,11 +19,17 @@ export default function AuthProvider({ children }) {
           body: JSON.stringify(obj),
         }
       );
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
       const res = await response.json();
       if (res) {
+        console.log(res);
         setUser(obj.email);
         setTokens(res);
-        localStorage.setItem("tokens", res);
+        localStorage.setItem("email", obj.email);
+        localStorage.setItem("tokens", JSON.stringify(res));
+
         return;
       }
       throw new Error(res.message);
@@ -35,7 +42,7 @@ export default function AuthProvider({ children }) {
     setUser(null);
     setTokens("");
     localStorage.removeItem("tokens");
-    // navigate("/home");
+    localStorage.removeItem("email");
   };
 
   const updateCart = (obj) => {
@@ -49,6 +56,7 @@ export default function AuthProvider({ children }) {
   const removeItemsFromCart = (obj) => {
     setCart(obj);
   };
+
   return (
     <AuthContext.Provider
       value={{

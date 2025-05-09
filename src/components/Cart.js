@@ -18,6 +18,7 @@ function Cart() {
   const handleCheckout = () => {};
 
   let newCart = [];
+
   const handleReduce = (e) => {
     cart.map((order) => {
       if (order.title === e.target.id) {
@@ -25,10 +26,10 @@ function Cart() {
         if (newQty >= 0) {
           return newCart.push({ ...order, qty: newQty });
         } else {
-          return order;
+          return newCart.push({ ...order });
         }
       } else {
-        return order;
+        return newCart.push({ ...order });
       }
     });
     let removeZeroQty = newCart.filter((order) => order.qty > 0);
@@ -37,6 +38,9 @@ function Cart() {
 
   let grandTotal = 0;
   cart.map((item) => (grandTotal += Number(item.qty) * Number(item.price)));
+
+  const sum = cart.reduce((acc, num) => acc + num.qty, 0);
+
   return (
     <>
       <Button
@@ -47,7 +51,10 @@ function Cart() {
         <i className="bi bi-basket2"></i>
         {cart.length > 0 && (
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {cart.length > 0 ? cart.length : ""}
+            {/*to show notification of unique products list total*/}
+            {/* {cart.length > 0 ? cart.length : ""} */}
+            {/*to show notification of total products quantities*/}
+            {cart.length > 0 ? sum : ""}
           </span>
         )}
       </Button>
@@ -78,7 +85,7 @@ function Cart() {
                     <td>
                       <Button
                         variant="outline-dark"
-                        id={item.name}
+                        id={item.title}
                         onClick={handleReduce}
                       >
                         -1

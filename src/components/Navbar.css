@@ -20,7 +20,7 @@ img {
   width: 38px;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   #loginButton {
     /* text-align: center; */
     margin: 10px auto;

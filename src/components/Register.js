@@ -12,6 +12,7 @@ function Register({ showRegister, setShowRegister }) {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordChecker, setPasswordChecker] = useState("");
   const [submit, setSubmit] = useState(false);
+  const [checkDetails, setCheckDetails] = useState(false);
   const [formData, setFormData] = useState({
     address: {
       street: "",
@@ -28,13 +29,13 @@ function Register({ showRegister, setShowRegister }) {
   });
 
   const handleRegister = (e) => {
-    e.preventDefault();
     if (formData.password !== rePassword) {
       setPasswordChecker("Passwords didn't match");
     } else {
       setPasswordChecker("");
       setRePassword("");
       setSubmit(true);
+      setCheckDetails(false);
       setFormData({
         address: {
           street: "",
@@ -54,6 +55,10 @@ function Register({ showRegister, setShowRegister }) {
 
   useEffect(() => {
     if (!submit) return;
+    if (!formData.username || !formData.email || !formData.password) {
+      setCheckDetails(true);
+      return;
+    }
     const postData = async () => {
       try {
         const res = await fetch("https://fakestoreapi.com/users", {
@@ -93,8 +98,10 @@ function Register({ showRegister, setShowRegister }) {
               <Col>
                 <Form.Label>Username</Form.Label>
                 <Form.Control
+                  type="text"
                   placeholder="Username"
                   name="username"
+                  required
                   value={formData.username}
                   onChange={(e) => {
                     setFormData({ ...formData, username: e.target.value });
@@ -104,6 +111,7 @@ function Register({ showRegister, setShowRegister }) {
               <Col>
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
+                  type="text"
                   placeholder="First name"
                   name="first-name"
                   value={formData.name.firstname}
@@ -118,6 +126,7 @@ function Register({ showRegister, setShowRegister }) {
               <Col>
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
+                  type="text"
                   placeholder="Last name"
                   name="last-name"
                   value={formData.name.lastname}
@@ -145,6 +154,7 @@ function Register({ showRegister, setShowRegister }) {
                       email: e.target.value,
                     })
                   }
+                  required
                 />
               </Form.Group>
 
@@ -186,6 +196,7 @@ function Register({ showRegister, setShowRegister }) {
                       }
                       placeholder="Password"
                       name="password"
+                      required
                     />
                     <label className="passwordChecker position-absolute ">
                       {showPassword ? "Hide" : "Show"}
@@ -213,6 +224,7 @@ function Register({ showRegister, setShowRegister }) {
                       value={rePassword}
                       placeholder="Re-Password"
                       name="repassword"
+                      required
                     />
                     <label className="passwordChecker position-absolute">
                       {showRePassword ? "Hide" : "Show"}
@@ -260,10 +272,19 @@ function Register({ showRegister, setShowRegister }) {
           </Modal.Body>
           {/* FOOTER contains REGISTER and CLOSE BUTTON */}
           <Modal.Footer className="bg-warning">
+            {checkDetails && (
+              <span className="text-danger fw-bold  me-auto">
+                ***CHECK YOUR DETAILS***
+              </span>
+            )}
             <Button variant="secondary" onClick={() => setShowRegister(false)}>
               Close
             </Button>
-            <Button type="submit" variant="primary" onClick={handleRegister}>
+            <Button
+              type="submit"
+              variant="outline-dark"
+              onClick={handleRegister}
+            >
               Register
             </Button>
           </Modal.Footer>

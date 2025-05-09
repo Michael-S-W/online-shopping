@@ -4,20 +4,23 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "./Login.css";
 import Register from "./Register";
+import { useAuth } from "../hooks/AuthProvider";
 
 function Login() {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  // const [submitLogin, setSubmitLogin] = useState(false);
   const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
+    email: "nico@gmail.com",
+    password: "1234",
   });
-  const [submitLogin, setSubmitLogin] = useState(false);
+  const authLogin = useAuth().loginAction;
+  const userEmail = useAuth().user;
 
   const handleClose = () => {
     setShow(false);
-    setCredentials({ ...credentials, password: "" });
+    setCredentials({ email: "", password: "" });
     setShowPassword(false);
   };
   const handleShow = () => setShow(true);
@@ -26,35 +29,40 @@ function Login() {
     setShow(false);
     setTimeout(() => setShowRegister(true), 250);
   };
-
-  const handleLogin = () => {
-    if (credentials.username && credentials.password) {
-      setSubmitLogin(true);
+  if (userEmail) {
+    handleClose();
+  }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (credentials.email && credentials.password) {
+      // setSubmitLogin(true);
+      authLogin(credentials);
     }
   };
 
-  useEffect(() => {
-    if (!submitLogin) return; // avoid initial run
+  // useEffect(() => {
+  //   if (!submitLogin) return;
 
-    const loginData = async () => {
-      try {
-        const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-        });
-        if (!res.ok) throw new Error(`Error: ${res.status}`);
-        const data = await res.json();
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.access_refresh);
-        handleClose();
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
+  //   const loginData = async () => {
+  //     try {
+  //       const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(credentials),
+  //       });
+  //       if (!res.ok) throw new Error(`Error: ${res.status}`);
+  //       const data = await res.json();
+  //       console.log(data);
+  //       // localStorage.setItem("access_token", data.access_token);
+  //       // localStorage.setItem("refresh_token", data.access_refresh);
+  //       // handleClose();
+  //     } catch (err) {
+  //       console.log(err.message);
+  //     }
+  //   };
 
-    loginData();
-  }, [submitLogin]);
+  //   loginData();
+  // }, [submitLogin]);
 
   return (
     <>

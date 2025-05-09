@@ -6,8 +6,11 @@ import shoppingCard from "../assets/shopping-cart.png";
 import "./Navbar.css";
 import Login from "./Login";
 import Cart from "./Cart";
+import { useAuth } from "../hooks/AuthProvider";
+import Logout from "./Logout";
 
 const MainNavbar = () => {
+  const userEmail = useAuth().user;
   return (
     <Navbar expand="sm" className="bg-warning rounded">
       <Container fluid>
@@ -36,7 +39,7 @@ const MainNavbar = () => {
           </Nav>
 
           <div className="d-flex me-2" id="loginButton">
-            <Login />
+            {userEmail ? <Logout /> : <Login />}
           </div>
         </Navbar.Collapse>
       </Container>

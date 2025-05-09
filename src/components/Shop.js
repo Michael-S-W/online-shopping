@@ -46,7 +46,7 @@ const Shop = () => {
       {/* Searh Bar ] */}
 
       {/* [ Products Bar */}
-      <div className="productCard">
+      <div className="productCard ">
         {products.map((product, idx) => (
           <ProductCard key={idx} obj={product} />
         ))}

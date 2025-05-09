@@ -8,12 +8,14 @@ import homeAppliances from "../assets/images/home-appliances.jpg";
 import kitchenAppliances from "../assets/images/kitchen-appliances.jpg";
 import HomeMultiSlider from "./HomeMultiSlider";
 import AddCategory from "./AddCategory";
+import { useAuth } from "../hooks/AuthProvider";
 
 const Home = () => {
+  const user = useAuth().user;
   return (
     <>
       <Carousel fade className="bg-warning rounded my-3">
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={cosmetics}
             alt="appliances"
@@ -24,7 +26,7 @@ const Home = () => {
             <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={electronics}
             alt="appliances"
@@ -35,7 +37,7 @@ const Home = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={fruitsVegetables}
             alt="appliances"
@@ -48,7 +50,7 @@ const Home = () => {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={groceries}
             alt="appliances"
@@ -61,7 +63,7 @@ const Home = () => {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={homeAppliances}
             alt="appliances"
@@ -74,7 +76,7 @@ const Home = () => {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={3000}>
+        <Carousel.Item interval={2500}>
           <img
             src={kitchenAppliances}
             alt="appliances"
@@ -90,7 +92,13 @@ const Home = () => {
       </Carousel>
       <HomeMultiSlider />
       <div className="text-center">
-        <AddCategory />
+        {user ? (
+          <AddCategory />
+        ) : (
+          <div className="text-danger fw-bold mt-3">
+            Login to add categories
+          </div>
+        )}
       </div>
     </>
   );
