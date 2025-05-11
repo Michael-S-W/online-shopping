@@ -24,7 +24,6 @@ export default function AuthProvider({ children }) {
       }
       const res = await response.json();
       if (res) {
-        console.log(res);
         setUser(obj.email);
         setTokens(res);
         localStorage.setItem("email", obj.email);
@@ -57,6 +56,11 @@ export default function AuthProvider({ children }) {
     setCart(obj);
   };
 
+  const checkingImageURL = (text) => {
+    const regex = /^https?:\/\/.*\.(jpeg|jpg|png|gif)$/i;
+    return regex.test(text);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -68,6 +72,7 @@ export default function AuthProvider({ children }) {
         updateCart,
         removeItemsFromCart,
         resetCart,
+        checkingImageURL,
       }}
     >
       {children}

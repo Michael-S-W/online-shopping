@@ -3,6 +3,7 @@ import { default as MultiCarousel } from "react-multi-carousel";
 import "../../node_modules/react-multi-carousel/lib/styles.css";
 import HomeCards from "./HomeCards";
 import { useAuth } from "../hooks/AuthProvider";
+import CategoryCardEdit from "./CategoryCardEdit";
 
 const HomeMultiSlider = () => {
   const [categories, setCategories] = useState([]);
@@ -53,46 +54,14 @@ const HomeMultiSlider = () => {
     fetchCategories();
   }, []);
 
-  const handleDelete = (e) => {
-    fetch(`https://api.escuelajs.co/api/v1/categories/${e.target.id}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json(); // or response.text() if no JSON response
-      })
-      .then((data) => {
-        console.log("Deleted successfully:", data);
-        window.location.reload();
-      });
-  };
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <MultiCarousel responsive={responsive}>
+    <MultiCarousel partialVisible={true} responsive={responsive}>
       {categories.map((obj, idx) => (
         <>
-          {user && (
-            <button
-              id={obj.id}
-              onClick={handleDelete}
-              className="btn btn-danger"
-              style={{
-                position: "absolute",
-                zIndex: "999",
-                right: "0",
-                top: "0",
-                padding: "3px 10px",
-                borderRadius: "50%",
-              }}
-            >
-              X
-            </button>
-          )}
+          {user && <CategoryCardEdit obj={obj} />}
 
           <HomeCards key={idx} category={obj} />
         </>

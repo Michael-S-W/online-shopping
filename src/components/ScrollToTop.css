@@ -1,0 +1,32 @@
+#scrollToTop {
+  position: "fixed";
+  bottom: "0px";
+  right: "0px";
+  padding: "10px";
+  font-size: "20px";
+  cursor: "pointer";
+  border-radius: "50%";
+  border: "none";
+  background-color: "#333";
+  color: "#fff";
+  z-index: 1000;
+  width: "50px";
+}
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(19px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animation to your element */
+#scrollToTop {
+  animation-name: slideFadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; /* Keeps the element in the final state */
+}

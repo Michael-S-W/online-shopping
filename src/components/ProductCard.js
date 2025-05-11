@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
@@ -51,59 +51,54 @@ const ProductCard = (props) => {
     </Popover>
   );
 
-  // const handleDelete = (e) => {
-  //   console.log(e.target.id);
-  //   fetch(`https://api.escuelajs.co/api/v1/products/${e.target.id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json(); // or response.text() if no JSON response
-  //     })
-  //     .then((data) => {
-  //       console.log("Deleted successfully:", data);
-  //       window.location.reload();
-  //     });
-  // };
   return (
     <Card className="cardsContainder">
-      {/* <button
-        id={props.obj.id}
-        onClick={handleDelete}
-        className="btn btn-danger"
-        style={{
-          position: "absolute",
-          zIndex: "999",
-          right: "0",
-          top: "0",
-          padding: "2px 8px",
-          borderRadius: "50%",
-        }}
-      >
-        X
-      </button> */}
       {globalStore.user && <ProductCardEdit obj={props.obj} />}
-      <Card.Img
+      {/* <Card.Img
         className="productImage"
         variant="top"
         alt={props.obj.title}
-        src={props.obj.images[0]}
-      />
+        src={
+          !globalStore.checkingImageURL(props.obj.images[0])
+            ? "https://cdn11.bigcommerce.com/s-y76tsfzldy/images/stencil/original/products/5565/21311/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3__09968.1648304982.jpg"
+            : props.obj.images[0]
+        }
+        // {props.obj.images[0]}
+      /> */}
+      {/* -------------------------------------------- */}
+
+      <Carousel interval={null} className="imagesCarousel">
+        {props.obj.images.map((img, index) => {
+          return (
+            <Carousel.Item key={img}>
+              <img
+                className="d-block w-100"
+                src={
+                  !globalStore.checkingImageURL(img)
+                    ? "https://cdn11.bigcommerce.com/s-y76tsfzldy/images/stencil/original/products/5565/21311/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3__09968.1648304982.jpg"
+                    : img
+                }
+                alt="First slide"
+              />
+            </Carousel.Item>
+          );
+        })}
+      </Carousel>
+
+      {/* -------------------------------------------- */}
       <Card.Body
+        className="productBody"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-end",
-          width: "50%",
         }}
       >
         <div className="d-flex flex-column">
-          <h6 className="text-center  text-center">{props.obj.title}</h6>
+          <h6 className="text-center">{props.obj.title}</h6>
           <OverlayTrigger trigger="click" placement="top" overlay={popover}>
-            <Button variant="success">Description</Button>
+            <Button variant="outline-dark">Description</Button>
           </OverlayTrigger>
 
           <div className="d-flex flex-column justify-content-center align-items-center w-100">

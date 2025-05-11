@@ -3,38 +3,41 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import DeleteAlert from "./DeleteAlert";
-import { useParams } from "react-router";
 import { useAuth } from "../hooks/AuthProvider";
 
-function ProductCardEdit(props) {
+function CategoryCardEdit(props) {
   const [show, setShow] = useState(false);
-  let newObj = props.obj;
+  const newObj = props.obj;
   const [itemObj, setItemObj] = useState(newObj);
   const [errorMessage, setErrorMessage] = useState(null);
-  const params = useParams();
   const checkingImageURL = useAuth().checkingImageURL;
 
   const handleClose = () => {
     setShow(false);
-    setItemObj(props.obj);
     setErrorMessage(null);
+    setItemObj(props.obj);
   };
   const handleShow = () => setShow(true);
 
   const handleUpdate = () => {
-    checkingImageURL(itemObj.images[0])
-      ? fetch(`https://api.escuelajs.co/api/v1/products/${props.obj.id}`, {
+    checkingImageURL(itemObj.image)
+      ? fetch(`https://api.escuelajs.co/api/v1/categories/${props.obj.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(itemObj),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              // setErrorMessage
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
           .then((data) => {
             console.log("Updated item:", data);
             setShow(false);
-            window.location.reload();
           })
           .catch((error) => {
             console.error("Error updating item:", error);
@@ -64,69 +67,43 @@ function ProductCardEdit(props) {
         <i className="bi bi-pencil-square"></i>
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{
+          left: "8px",
+        }}
+      >
         <Modal.Header closeButton className="bg-warning">
-          <Modal.Title>Update Item</Modal.Title>
+          <Modal.Title>Update Category</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-warning">
           {/* --- */}
-          <Form.Label>Title:</Form.Label>
-          <Form.Control
-            type="text"
-            value={itemObj.title}
-            onChange={(e) => setItemObj({ ...itemObj, title: e.target.value })}
-          ></Form.Control>
+          <Form.Group className="mb-3">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+              type="text"
+              value={itemObj.name}
+              onChange={(e) => setItemObj({ ...itemObj, name: e.target.value })}
+            ></Form.Control>
+          </Form.Group>
           {/* --- */}
-          <Form.Label>Product Description:</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            value={itemObj.description}
-            onChange={(e) =>
-              setItemObj({ ...itemObj, description: e.target.value })
-            }
-          ></Form.Control>
+          <Form.Group className="mb-3">
+            <Form.Label>
+              Image Link:{" "}
+              <span style={{ fontSize: "12px" }}>
+                &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
+              </span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              value={itemObj.image}
+              onChange={(e) => {
+                setItemObj({ ...itemObj, image: e.target.value });
+              }}
+            ></Form.Control>
+          </Form.Group>
           {/* --- */}
-          <Form.Label>
-            Image Link:{" "}
-            <span style={{ fontSize: "12px" }}>
-              &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
-            </span>
-          </Form.Label>
-          <Form.Control
-            type="text"
-            value={itemObj.images[0] || itemObj.images[1]}
-            onChange={(e) =>
-              setItemObj({ ...itemObj, images: [e.target.value] })
-            }
-          ></Form.Control>
-          {/* --- */}
-          <Form.Label>Price:</Form.Label>
-          <Form.Control
-            type="number"
-            value={itemObj.price}
-            onChange={(e) => setItemObj({ ...itemObj, price: e.target.value })}
-          ></Form.Control>
-          {/* --- */}
-          {params.categoryId && (
-            <fieldset>
-              <legend>Product Category</legend>
-              <Form.Label>Category:</Form.Label>
-              <Form.Control
-                type="text"
-                value={itemObj.category.name}
-                onChange={(e) =>
-                  setItemObj({
-                    ...itemObj,
-                    category: {
-                      ...itemObj.category,
-                      name: e.target.value,
-                    },
-                  })
-                }
-              ></Form.Control>
-            </fieldset>
-          )}
           <div
             style={{
               height: "14px",
@@ -154,4 +131,4 @@ function ProductCardEdit(props) {
   );
 }
 
-export default ProductCardEdit;
+export default CategoryCardEdit;

@@ -9,85 +9,82 @@ import kitchenAppliances from "../assets/images/kitchen-appliances.jpg";
 import HomeMultiSlider from "./HomeMultiSlider";
 import AddCategory from "./AddCategory";
 import { useAuth } from "../hooks/AuthProvider";
-
+import { TypeAnimation } from "react-type-animation";
+import Footer from "./Footer";
 const Home = () => {
   const user = useAuth().user;
+
   return (
     <>
-      <Carousel fade className="bg-warning rounded my-3">
-        <Carousel.Item interval={2500}>
+      <TypeAnimation
+        sequence={[
+          "Your favourite place for CLOTHES.",
+          2000,
+          "Your favourite place for ELECTRONICS.",
+          2000,
+          "Your favourite place for SHOES.",
+          2000,
+          "Your favourite place for DECORE.",
+          2000,
+          "Your favourite place for PET.",
+          2000,
+          "Your favourite place for GROCERIES.",
+          2000,
+        ]}
+        wrapper="div"
+        speed={30}
+        style={{
+          fontSize: "3.5vw",
+          color: "white",
+          display: "inline-block",
+          lineHeight: "2",
+        }}
+        repeat={Infinity}
+        className="mx-auto fw-bold"
+      />
+
+      <Carousel className="bg-warning rounded mb-3" pause={false}>
+        <Carousel.Item interval={2000}>
           <img
             src={cosmetics}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>First slide label</h2>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={2500}>
+        <Carousel.Item interval={2000}>
           <img
             src={electronics}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>Second slide label</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={2500}>
+        <Carousel.Item interval={2000}>
           <img
             src={fruitsVegetables}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>Third slide label</h2>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={2500}>
+        <Carousel.Item interval={2000}>
           <img
             src={groceries}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>Forth slide label</h2>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={2500}>
+        <Carousel.Item interval={2000}>
           <img
             src={homeAppliances}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>Fifth slide label</h2>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={2500}>
+        <Carousel.Item interval={2000}>
           <img
             src={kitchenAppliances}
             alt="appliances"
             className="d-block w-100 rounded"
           />
-          <Carousel.Caption>
-            <h2>sixth slide label</h2>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
       <HomeMultiSlider />
@@ -95,11 +92,12 @@ const Home = () => {
         {user ? (
           <AddCategory />
         ) : (
-          <div className="text-danger fw-bold mt-3">
+          <div className="text-danger fw-bold my-3 fs-3">
             Login to add categories
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };

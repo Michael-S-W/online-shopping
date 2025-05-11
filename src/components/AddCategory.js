@@ -2,25 +2,42 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { useAuth } from "../hooks/AuthProvider";
 
 const AddCategory = () => {
   const [show, setShow] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [categoryDetails, setCategoryDetails] = useState({
     name: "",
     image: "",
   });
 
-  const handleClose = () => setShow(false);
+  const checkingImageURL = useAuth().checkingImageURL;
+
+  const handleClose = () => {
+    setShow(false);
+    setErrorMessage(null);
+    setCategoryDetails({
+      name: "",
+      image: "",
+    });
+  };
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    setShow(false);
-    setSubmit(!submit);
+    if (checkingImageURL(categoryDetails.image)) {
+      setSubmit(!submit);
+      setShow(false);
+      setErrorMessage(null);
+    } else {
+      setErrorMessage("Please enter a valid image URL");
+    }
   };
 
   useEffect(() => {
     if (!submit) return;
+
     const creatingCategory = async () => {
       try {
         const res = await fetch("https://api.escuelajs.co/api/v1/categories", {
@@ -35,13 +52,13 @@ const AddCategory = () => {
       } catch {}
     };
     creatingCategory();
-  }, [submit]);
+  }, [categoryDetails, submit]);
 
   return (
     <>
       <Button
         variant="outline-dark"
-        className="mt-3 text-center my-auto btn btn-outline-dark"
+        className=" text-center my-3 btn btn-outline-dark"
         onClick={handleShow}
       >
         Add Category
@@ -69,7 +86,12 @@ const AddCategory = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Image Link</Form.Label>
+              <Form.Label>
+                Image Link:{" "}
+                <span style={{ fontSize: "12px" }}>
+                  &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
+                </span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="ex htt......jpg"
@@ -84,6 +106,16 @@ const AddCategory = () => {
               />
             </Form.Group>
           </Form>
+          <div
+            style={{
+              height: "14px",
+              textAlign: "center",
+              color: "red",
+              fontWeight: "bolder",
+            }}
+          >
+            {errorMessage && errorMessage}
+          </div>
         </Modal.Body>
         <Modal.Footer className="bg-warning">
           <Button variant="secondary" onClick={handleClose}>

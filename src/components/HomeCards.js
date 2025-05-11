@@ -1,28 +1,15 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router";
+import { useAuth } from "../hooks/AuthProvider";
 
 const HomeCards = ({ category }) => {
   const navigate = useNavigate();
-  // const handleDelete = (e) => {
-  //   fetch(`https://api.escuelajs.co/api/v1/categories/${e.target.id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       } else {
-  //         navigate("/home");
-  //       }
-  //       window.location.reload();
-  //     })
-  //     .catch((error) => console.error("Error:", error));
-  // };
+  const checkingImageURL = useAuth().checkingImageURL;
   return (
     <Card
       style={{
         width: "100%",
-        padding: "10px",
         height: "100%",
         position: "relative",
         zIndex: "3",
@@ -35,13 +22,17 @@ const HomeCards = ({ category }) => {
       <Card.Img
         variant="top"
         alt={category.name}
-        src={category.image}
+        src={
+          !checkingImageURL(category.image)
+            ? "https://cdn11.bigcommerce.com/s-y76tsfzldy/images/stencil/original/products/5565/21311/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3__09968.1648304982.jpg"
+            : category.image
+        }
         style={{ height: "70%", objectFit: "cover", objectPosition: "top" }}
       />
       <Card.Body>
         <Card.Title
           className="text-center text-nowrap"
-          style={{ fontSize: "0.75rem" }}
+          style={{ fontSize: "1rem" }}
         >
           {category.name}
         </Card.Title>

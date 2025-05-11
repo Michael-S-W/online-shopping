@@ -77,12 +77,31 @@ function Register({ showRegister, setShowRegister }) {
     setShowRegister(false);
     postData();
   }, [submit]);
+
+  const handleClose = () => {
+    setShowRegister(false);
+    setFormData({
+      address: {
+        street: "",
+        city: "",
+      },
+      email: "",
+      username: "",
+      password: "",
+      name: {
+        firstname: "",
+        lastname: "",
+      },
+      phone: "",
+    });
+    setCheckDetails(false);
+  };
   return (
     <>
       <Modal
         size="lg"
         show={showRegister}
-        onHide={() => setShowRegister(false)}
+        onHide={handleClose}
         aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton className="bg-warning">
@@ -277,7 +296,7 @@ function Register({ showRegister, setShowRegister }) {
                 ***CHECK YOUR DETAILS***
               </span>
             )}
-            <Button variant="secondary" onClick={() => setShowRegister(false)}>
+            <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
             <Button

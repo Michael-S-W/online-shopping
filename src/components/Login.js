@@ -12,8 +12,8 @@ function Login() {
   const [showRegister, setShowRegister] = useState(false);
   // const [submitLogin, setSubmitLogin] = useState(false);
   const [credentials, setCredentials] = useState({
-    email: "nico@gmail.com",
-    password: "1234",
+    email: "john@mail.com",
+    password: "changeme",
   });
   const authLogin = useAuth().loginAction;
   const userEmail = useAuth().user;
@@ -86,7 +86,10 @@ function Login() {
         <Form>
           <Modal.Body className="bg-warning">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>
+                Email address: ex.{" "}
+                <span style={{ fontSize: "12px" }}>john@mail.com</span>
+              </Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Email"
@@ -102,7 +105,9 @@ function Login() {
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Password</Form.Label>
+              <Form.Label>
+                Password: ex. <span style={{ fontSize: "12px" }}>changeme</span>
+              </Form.Label>
               <div className="d-flex justify-content-between align-items-center">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
