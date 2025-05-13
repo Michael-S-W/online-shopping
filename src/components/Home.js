@@ -1,4 +1,3 @@
-import React from "react";
 import { Carousel } from "react-bootstrap";
 import cosmetics from "../assets/images/cosmetics.jpg";
 import electronics from "../assets/images/electronics.jpg";
@@ -35,9 +34,9 @@ const Home = () => {
         speed={30}
         style={{
           fontSize: "3.5vw",
-          color: "white",
           display: "inline-block",
           lineHeight: "2",
+          color: "white",
         }}
         repeat={Infinity}
         className="mx-auto fw-bold"
@@ -87,16 +86,26 @@ const Home = () => {
           />
         </Carousel.Item>
       </Carousel>
-      <HomeMultiSlider />
-      <div className="text-center">
+      <div className="w-100 text-end mb-3">
         {user ? (
-          <AddCategory />
+          user.role === "admin" ? (
+            <AddCategory />
+          ) : user.role === "customer" ? (
+            <div className="text-danger text-center fw-bold mb-3 fs-3">
+              Welcome
+            </div>
+          ) : (
+            <div className="text-danger text-center fw-bold mb-3 fs-3">
+              Login to buy
+            </div>
+          )
         ) : (
-          <div className="text-danger fw-bold my-3 fs-3">
-            Login to add categories
+          <div className="text-danger text-center fw-bold mb-3 fs-3">
+            Login to buy
           </div>
         )}
       </div>
+      <HomeMultiSlider />
       <Footer />
     </>
   );

@@ -16,6 +16,7 @@ const HomeCards = ({ category }) => {
         display: "flex",
         flexDirection: "column",
         cursor: "pointer",
+        border: "1px solid white",
       }}
       onClick={() => navigate(`/shop/${category.id}`)}
     >
@@ -29,9 +30,9 @@ const HomeCards = ({ category }) => {
         }
         style={{ height: "70%", objectFit: "cover", objectPosition: "top" }}
       />
-      <Card.Body>
+      <Card.Body className="px-0 py-1 d-flex justify-content-center align-items-center">
         <Card.Title
-          className="text-center text-nowrap"
+          className="text-center text-wrap"
           style={{ fontSize: "1rem" }}
         >
           {category.name}

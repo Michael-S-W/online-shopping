@@ -51,9 +51,6 @@ function Cart() {
         <i className="bi bi-basket2"></i>
         {cart.length > 0 && (
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {/*to show notification of unique products list total*/}
-            {/* {cart.length > 0 ? cart.length : ""} */}
-            {/*to show notification of total products quantities*/}
             {cart.length > 0 ? sum : ""}
           </span>
         )}

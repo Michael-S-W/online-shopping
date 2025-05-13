@@ -1,11 +1,20 @@
-import { useContext, createContext, useState } from "react";
+import {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(localStorage.getItem("email") || null);
-  const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("userData")) || ""
+  );
+  // const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
   const [cart, setCart] = useState([]);
+  const [loginError, setLoginError] = useState(null);
 
   const loginAction = async (obj) => {
     try {
@@ -20,28 +29,93 @@ export default function AuthProvider({ children }) {
         }
       );
       if (!response.ok) {
-        throw new Error("Login failed");
+        console.log(
+          `Error ${response.status} Login failed: ${response.statusText}`
+        );
+        return setLoginError(
+          `Error ${response.status} Login failed => ${response.statusText}`
+        );
       }
       const res = await response.json();
       if (res) {
-        setUser(obj.email);
-        setTokens(res);
-        localStorage.setItem("email", obj.email);
         localStorage.setItem("tokens", JSON.stringify(res));
-
+        fetchUserData(res.access_token);
+        // setTokens(res);
+        setLoginError(null);
         return;
       }
-      throw new Error(res.message);
     } catch (err) {
       console.error(err);
+      refreshTokenFunction(
+        JSON.parse(localStorage.getItem("tokens")).refresh_token
+      );
     }
   };
 
+  const refreshTokenFunction = (refreshToken) => {
+    if (!refreshToken) {
+      console.log("No refresh token available. Please log in again.");
+      // Optionally, force re-login here
+      window.location.reload();
+      return;
+    }
+
+    fetch("https://api.escuelajs.co/api/v1/auth/refresh-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(refreshToken),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Token refresh failed");
+        }
+        const data = await response.json();
+        localStorage.setItem("token", JSON.stringify(data));
+        // Optionally update refresh_token if returned
+      })
+      .catch((error) => {
+        console.error("Refresh token error:", error);
+      });
+  };
+
+  const fetchUserData = useCallback((accessToken) => {
+    fetch("https://api.escuelajs.co/api/v1/auth/profile", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(async (response) => {
+        if (response.status === 401) {
+          //Token expired or invalid, try to refresh
+          await refreshTokenFunction(
+            JSON.parse(localStorage.getItem("tokens")).refresh_token
+          );
+        } else if (!response.ok) {
+          throw new Error("Error fetching data");
+        } else {
+          const data = await response.json();
+          setUser(data);
+          // localStorage.setItem("userData", JSON.stringify(data));
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("tokens")) {
+      fetchUserData(JSON.parse(localStorage.getItem("tokens")).access_token);
+    }
+  }, [fetchUserData]);
+
   const logOut = () => {
     setUser(null);
-    setTokens("");
+    // setTokens("");
     localStorage.removeItem("tokens");
-    localStorage.removeItem("email");
+    localStorage.removeItem("userData");
   };
 
   const updateCart = (obj) => {
@@ -64,7 +138,7 @@ export default function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        tokens,
+        // tokens,
         user,
         loginAction,
         logOut,
@@ -73,6 +147,8 @@ export default function AuthProvider({ children }) {
         removeItemsFromCart,
         resetCart,
         checkingImageURL,
+        loginError,
+        setLoginError,
       }}
     >
       {children}

@@ -58,10 +58,15 @@ const AddCategory = () => {
     <>
       <Button
         variant="outline-dark"
-        className=" text-center my-3 btn btn-outline-dark"
+        className=" text-center btn btn-outline-dark"
+        style={{
+          borderRadius: "5px",
+          padding: "1px 4px",
+          zIndex: "9",
+        }}
         onClick={handleShow}
       >
-        Add Category
+        <i className="bi bi-plus-square"> Add Category</i>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -70,7 +75,7 @@ const AddCategory = () => {
         </Modal.Header>
         <Modal.Body className="bg-warning">
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label>Category Name</Form.Label>
               <Form.Control
                 type="text"
@@ -85,7 +90,7 @@ const AddCategory = () => {
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label>
                 Image Link:{" "}
                 <span style={{ fontSize: "12px" }}>

@@ -10,7 +10,7 @@ import { useAuth } from "../hooks/AuthProvider";
 import Logout from "./Logout";
 
 const MainNavbar = () => {
-  const userEmail = useAuth().user;
+  const user = useAuth().user;
   return (
     <Navbar expand="sm" className="bg-warning rounded">
       <Container fluid>
@@ -39,7 +39,14 @@ const MainNavbar = () => {
           </Nav>
 
           <div className="d-flex me-2" id="loginButton">
-            {userEmail ? <Logout /> : <Login />}
+            {user ? (
+              <div className="d-flex justify-centent-center align-items-center gap-2">
+                <div className="text-danger fw-bold">Welcome, {user.name}</div>
+                <Logout />
+              </div>
+            ) : (
+              <Login />
+            )}
           </div>
         </Navbar.Collapse>
       </Container>

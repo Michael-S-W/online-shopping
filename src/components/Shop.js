@@ -4,13 +4,17 @@ import { useParams } from "react-router";
 import ProductCard from "./ProductCard";
 import "./Shop.css";
 import ScrollToTop from "./ScrollToTop";
+import AddProduct from "./AddProduct";
+import { useAuth } from "../hooks/AuthProvider";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = useState("");
   let params = useParams();
   let fullURL;
   const baseURL = "https://api.escuelajs.co/api/v1/products";
+  const user = useAuth().user;
 
   if (isNaN(params.categoryId)) {
     fullURL = baseURL;
@@ -35,6 +39,22 @@ const Shop = () => {
     CatProducts();
   }, [fullURL]);
 
+  // Component to render search products
+  const SearchResult = () => {
+    const tempArr = products.filter((product) =>
+      product.slug.toLowerCase().includes(search.toLowerCase())
+    );
+    return (
+      <>
+        {tempArr.length ? (
+          tempArr.map((item) => <ProductCard key={item.slug} obj={item} />)
+        ) : (
+          <h3>NO MATCHING PRODUCTS</h3>
+        )}
+      </>
+    );
+  };
+
   return (
     <div>
       {/* [ Search Bar */}
@@ -44,33 +64,39 @@ const Shop = () => {
           placeholder="Search"
           className="me-2"
           aria-label="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <Button variant="outline-dark">Search</Button>
       </Form>
       {/* Searh Bar ] */}
-      {isLoading ? (
-        <div className="text-center">
+
+      <div className="m-3 d-flex justify-content-between align-items-center">
+        {isLoading ? (
           <strong>Loading...</strong>
-        </div>
-      ) : products.length === 0 ? (
-        <div className="text-center">
+        ) : products.length === 0 ? (
           <strong>No Products</strong>
-        </div>
-      ) : !isNaN(params.categoryId) ? (
-        <div className="text-center">
+        ) : !isNaN(params.categoryId) ? (
           <strong>{products[0].category.name}</strong>
-        </div>
-      ) : (
-        <div className="text-center">
+        ) : (
           <strong>All Products</strong>
-        </div>
-      )}
+        )}
+        {user && user.role === "admin" && (
+          <span>
+            <AddProduct />
+          </span>
+        )}
+      </div>
       {/* [ Products Bar */}
 
       <div className="productCard ">
-        {products.map((product, idx) => (
-          <ProductCard key={idx} obj={product} />
-        ))}
+        {/* --------------------------------------- */}
+        {search !== "" && <SearchResult />}
+        {/* ---------------------------------------- */}
+        {search === "" &&
+          products.map((product, idx) => (
+            <ProductCard key={idx} obj={product} />
+          ))}
       </div>
       <ScrollToTop />
       {/* Products Cards ] */}

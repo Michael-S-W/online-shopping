@@ -17,11 +17,14 @@ function Login() {
   });
   const authLogin = useAuth().loginAction;
   const userEmail = useAuth().user;
+  const loginError = useAuth().loginError;
+  const setLoginError = useAuth().setLoginError;
 
   const handleClose = () => {
     setShow(false);
     setCredentials({ email: "", password: "" });
     setShowPassword(false);
+    setLoginError(null);
   };
   const handleShow = () => setShow(true);
 
@@ -39,30 +42,6 @@ function Login() {
       authLogin(credentials);
     }
   };
-
-  // useEffect(() => {
-  //   if (!submitLogin) return;
-
-  //   const loginData = async () => {
-  //     try {
-  //       const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(credentials),
-  //       });
-  //       if (!res.ok) throw new Error(`Error: ${res.status}`);
-  //       const data = await res.json();
-  //       console.log(data);
-  //       // localStorage.setItem("access_token", data.access_token);
-  //       // localStorage.setItem("refresh_token", data.access_refresh);
-  //       // handleClose();
-  //     } catch (err) {
-  //       console.log(err.message);
-  //     }
-  //   };
-
-  //   loginData();
-  // }, [submitLogin]);
 
   return (
     <>
@@ -87,8 +66,10 @@ function Login() {
           <Modal.Body className="bg-warning">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>
-                Email address: ex.{" "}
-                <span style={{ fontSize: "12px" }}>john@mail.com</span>
+                Email address:
+                <div style={{ fontSize: "12px" }}>
+                  john@mail.com as customer or admin@mail.com as admin
+                </div>
               </Form.Label>
               <Form.Control
                 type="email"
@@ -106,7 +87,10 @@ function Login() {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>
-                Password: ex. <span style={{ fontSize: "12px" }}>changeme</span>
+                Password:{" "}
+                <div style={{ fontSize: "12px" }}>
+                  changeme for john@mail.com or admin123 for admin@mail.com
+                </div>
               </Form.Label>
               <div className="d-flex justify-content-between align-items-center">
                 <Form.Control
@@ -128,6 +112,7 @@ function Login() {
                 </label>
               </div>
             </Form.Group>
+            <div className="text-danger fw-bold">{loginError}</div>
           </Modal.Body>
           <Modal.Footer className="bg-warning">
             <Button variant="secondary" onClick={handleClose}>

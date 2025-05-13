@@ -11,8 +11,12 @@ const Logout = () => {
     navigate("/");
   };
   return (
-    <Button variant="outline-danger" onClick={handleLogout}>
-      Logout
+    <Button
+      variant="outline-danger"
+      onClick={handleLogout}
+      className="px-2 py-1"
+    >
+      <i className="bi bi-box-arrow-right"></i>
     </Button>
   );
 };

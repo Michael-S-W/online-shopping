@@ -58,10 +58,14 @@ const HomeMultiSlider = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <MultiCarousel partialVisible={true} responsive={responsive}>
+    <MultiCarousel
+      partialVisible={true}
+      responsive={responsive}
+      className="mb-3"
+    >
       {categories.map((obj, idx) => (
         <>
-          {user && <CategoryCardEdit obj={obj} />}
+          {user && user.role === "admin" && <CategoryCardEdit obj={obj} />}
 
           <HomeCards key={idx} category={obj} />
         </>

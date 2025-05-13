@@ -53,21 +53,12 @@ const ProductCard = (props) => {
 
   return (
     <Card className="cardsContainder">
-      {globalStore.user && <ProductCardEdit obj={props.obj} />}
-      {/* <Card.Img
-        className="productImage"
-        variant="top"
-        alt={props.obj.title}
-        src={
-          !globalStore.checkingImageURL(props.obj.images[0])
-            ? "https://cdn11.bigcommerce.com/s-y76tsfzldy/images/stencil/original/products/5565/21311/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3__09968.1648304982.jpg"
-            : props.obj.images[0]
-        }
-        // {props.obj.images[0]}
-      /> */}
+      {globalStore.user && globalStore.user.role === "admin" && (
+        <ProductCardEdit obj={props.obj} />
+      )}
       {/* -------------------------------------------- */}
 
-      <Carousel interval={null} className="imagesCarousel">
+      <Carousel interval={null} className="imagesCarousel" data-bs-theme="dark">
         {props.obj.images.map((img, index) => {
           return (
             <Carousel.Item key={img}>

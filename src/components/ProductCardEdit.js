@@ -3,15 +3,19 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import DeleteAlert from "./DeleteAlert";
-import { useParams } from "react-router";
 import { useAuth } from "../hooks/AuthProvider";
-
 function ProductCardEdit(props) {
   const [show, setShow] = useState(false);
   let newObj = props.obj;
   const [itemObj, setItemObj] = useState(newObj);
+  // to maintain array of 3 values for 3 inputs
+  const [itemObjImages, setItemObjImages] = useState([
+    ...newObj.images,
+    newObj.images.length < 3 && Array(3 - newObj.images.length).fill(""),
+  ]);
+  // to maintain array of 3 values for 3 inputs
+
   const [errorMessage, setErrorMessage] = useState(null);
-  const params = useParams();
   const checkingImageURL = useAuth().checkingImageURL;
 
   const handleClose = () => {
@@ -19,16 +23,25 @@ function ProductCardEdit(props) {
     setItemObj(props.obj);
     setErrorMessage(null);
   };
+
   const handleShow = () => setShow(true);
 
   const handleUpdate = () => {
-    checkingImageURL(itemObj.images[0])
+    // filtering images array from invalid links
+    const validImagesArr = itemObjImages.filter((image) =>
+      checkingImageURL(image)
+    );
+    // filtering images array from invalid link
+
+    // checking if validImagesArr have valid image link
+    validImagesArr.every((image) => checkingImageURL(image)) &&
+    validImagesArr.length >= 1
       ? fetch(`https://api.escuelajs.co/api/v1/products/${props.obj.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(itemObj),
+          body: JSON.stringify({ ...itemObj, images: validImagesArr }),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -38,10 +51,6 @@ function ProductCardEdit(props) {
           })
           .catch((error) => {
             console.error("Error updating item:", error);
-          })
-          .finally(() => {
-            setShow(false);
-            window.location.reload();
           })
       : setErrorMessage("Please enter a valid image URL");
   };
@@ -69,14 +78,16 @@ function ProductCardEdit(props) {
           <Modal.Title>Update Item</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-warning">
-          {/* --- */}
+          {/* [ TITLE */}
           <Form.Label>Title:</Form.Label>
           <Form.Control
             type="text"
             value={itemObj.title}
             onChange={(e) => setItemObj({ ...itemObj, title: e.target.value })}
           ></Form.Control>
-          {/* --- */}
+          {/* TITLE ] */}
+
+          {/* [ DESECRIPTION */}
           <Form.Label>Product Description:</Form.Label>
           <Form.Control
             as="textarea"
@@ -86,29 +97,74 @@ function ProductCardEdit(props) {
               setItemObj({ ...itemObj, description: e.target.value })
             }
           ></Form.Control>
-          {/* --- */}
+          {/* DESCRIPTION ] */}
+
+          {/* [ IMAGES */}
           <Form.Label>
-            Image Link:{" "}
+            Image Link 1:{" "}
             <span style={{ fontSize: "12px" }}>
               &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
             </span>
           </Form.Label>
           <Form.Control
             type="text"
-            value={itemObj.images[0] || itemObj.images[1]}
+            value={itemObjImages[0]}
             onChange={(e) =>
-              setItemObj({ ...itemObj, images: [e.target.value] })
+              setItemObjImages((prev) =>
+                prev.map((image, index) =>
+                  index === 0 ? e.target.value : image
+                )
+              )
             }
           ></Form.Control>
-          {/* --- */}
+          <Form.Label>
+            Image Link 2:{" "}
+            <span style={{ fontSize: "12px" }}>
+              &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
+            </span>
+          </Form.Label>
+          <Form.Control
+            type="text"
+            value={itemObjImages[1]}
+            onChange={(e) =>
+              setItemObjImages((prev) =>
+                prev.map((image, index) =>
+                  index === 1 ? e.target.value : image
+                )
+              )
+            }
+          ></Form.Control>
+          <Form.Label>
+            Image Link 3:{" "}
+            <span style={{ fontSize: "12px" }}>
+              &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
+            </span>
+          </Form.Label>
+          <Form.Control
+            type="text"
+            value={itemObjImages[2]}
+            onChange={(e) =>
+              setItemObjImages((prev) =>
+                prev.map((image, index) =>
+                  index === 0 ? e.target.value : image
+                )
+              )
+            }
+          ></Form.Control>
+          {/* IMAGES ] */}
+
+          {/* [ PRICE */}
           <Form.Label>Price:</Form.Label>
           <Form.Control
             type="number"
             value={itemObj.price}
+            min={1}
             onChange={(e) => setItemObj({ ...itemObj, price: e.target.value })}
           ></Form.Control>
-          {/* --- */}
-          {params.categoryId && (
+          {/* PRICE ] */}
+
+          {/* [ CATEGOREY */}
+          {/* {params.categoryId && (
             <fieldset>
               <legend>Product Category</legend>
               <Form.Label>Category:</Form.Label>
@@ -126,7 +182,10 @@ function ProductCardEdit(props) {
                 }
               ></Form.Control>
             </fieldset>
-          )}
+          )} */}
+          {/* CATEGORY ] */}
+
+          {/* [ ERROR MESSAGE */}
           <div
             style={{
               height: "14px",
@@ -137,6 +196,7 @@ function ProductCardEdit(props) {
           >
             {errorMessage && errorMessage}
           </div>
+          {/* ERROR MESSAGE ] */}
         </Modal.Body>
         <Modal.Footer className="bg-warning d-flex justify-content-between">
           <DeleteAlert obj={props.obj} />
