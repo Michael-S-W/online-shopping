@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { default as MultiCarousel } from "react-multi-carousel";
 import "../../node_modules/react-multi-carousel/lib/styles.css";
 import HomeCards from "./HomeCards";
 import { useAuth } from "../hooks/AuthProvider";
-import CategoryCardEdit from "./CategoryCardEdit";
+// import CategoryCardEdit from "./CategoryCardEdit";
+import AddCategory from "./AddCategory";
 
 const HomeMultiSlider = () => {
   const user = useAuth().user;
@@ -40,7 +40,7 @@ const HomeMultiSlider = () => {
     >
       {categories.map((obj, idx) => (
         <>
-          {user && user.role === "admin" && <CategoryCardEdit obj={obj} />}
+          {user && user.role === "admin" && <AddCategory obj={obj} />}
 
           <HomeCards key={idx} category={obj} />
         </>

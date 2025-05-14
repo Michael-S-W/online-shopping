@@ -1,4 +1,3 @@
-import React from "react";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router";
 
@@ -17,11 +16,7 @@ const NotFound = () => {
           404
         </Card.Title>
         <Card.Text>The requested page is not available</Card.Text>
-        <button
-          // variant="primary"
-          className="btn btn-outline-dark"
-          onClick={() => navigate("/")}
-        >
+        <button className="btn btn-outline-dark" onClick={() => navigate("/")}>
           Go Home
         </button>
       </Card.Body>

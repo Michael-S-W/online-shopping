@@ -7,15 +7,7 @@ import { useParams } from "react-router";
 
 const AddProduct = (props) => {
   const urlCategoryId = useParams().categoryId;
-  console.log(typeof urlCategoryId);
   const [show, setShow] = useState(false);
-  // const [productObj, setProductObj] = useState({
-  //   title: "",
-  //   price: 0,
-  //   description: "",
-  //   categoryId: 0,
-  //   images: [""],
-  // });
   const [productObj, setProductObj] = useState(
     props.obj
       ? {
@@ -54,6 +46,25 @@ const AddProduct = (props) => {
   };
   const handleShow = () => setShow(true);
 
+  const addMoreImages = () => {
+    setProductObj((prev) => ({
+      ...prev,
+      images: [...prev.images, ""],
+    }));
+  };
+
+  const handleDeleteImage = (e) => {
+    let tempArr = [...productObj.images].filter(
+      (img, index) =>
+        index !== Number(e.target.attributes["data-number"].nodeValue)
+    );
+    console.log(tempArr);
+    setProductObj({
+      ...productObj,
+      images: tempArr,
+    });
+  };
+
   const handleAddProduct = async () => {
     const tempImagesArray = [...productObj.images].filter((e) => e !== "");
     if (!tempImagesArray.every((e) => checkingImageURL(e))) {
@@ -76,7 +87,7 @@ const AddProduct = (props) => {
                 images: tempImagesArray,
                 title: [
                   [...productObj.title][0].toUpperCase(),
-                  [...productObj.title].splice(1).join(""),
+                  [...productObj.title.toLowerCase()].splice(1).join(""),
                 ].join(""),
               }),
             }
@@ -86,12 +97,11 @@ const AddProduct = (props) => {
                 setErrorMessage(
                   `HTTP error! Status: ${response.status}, ${response.message}`
                 );
-                // throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
               }
               return response.json();
             })
             .then((data) => {
-              console.log(data);
               setShow(false);
               setProductObj({
                 title: "",
@@ -100,7 +110,7 @@ const AddProduct = (props) => {
                 categoryId: 0,
                 images: [""],
               });
-              // window.location.reload();
+              window.location.reload();
             })
             .catch((err) => {
               console.log(err.message);
@@ -117,7 +127,7 @@ const AddProduct = (props) => {
             images: tempImagesArray,
             title: [
               [...productObj.title][0].toUpperCase(),
-              [...productObj.title].splice(1).join(""),
+              [...productObj.title.toLowerCase()].splice(1).join(""),
             ].join(""),
           }),
         })
@@ -126,12 +136,11 @@ const AddProduct = (props) => {
               setErrorMessage(
                 `HTTP error! Status: ${response.status}, ${response.message}`
               );
-              // throw new Error(`HTTP error! Status: ${response.status}`);
+              throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
           })
           .then((data) => {
-            console.log(data);
             setShow(false);
             setProductObj({
               title: "",
@@ -140,31 +149,12 @@ const AddProduct = (props) => {
               categoryId: 0,
               images: [""],
             });
-            // window.location.reload();
+            window.location.reload();
           })
           .catch((err) => {
             console.log(err.message);
           })
       : setErrorMessage("Please enter a valid image URL");
-  };
-
-  const addMoreImages = () => {
-    setProductObj((prev) => ({
-      ...prev,
-      images: [...prev.images, ""],
-    }));
-  };
-
-  const handleDeleteImage = (e) => {
-    let tempArr = [...productObj.images].filter(
-      (img, index) =>
-        index !== Number(e.target.attributes["data-number"].nodeValue)
-    );
-    console.log(tempArr);
-    setProductObj({
-      ...productObj,
-      images: tempArr,
-    });
   };
   return (
     <>
@@ -384,7 +374,7 @@ const AddProduct = (props) => {
               // form="addEditProduct"
               onClick={handleAddProduct}
             >
-              Add Product
+              {props.obj ? "Edit Prodct" : "Add Product"}
             </Button>
           </div>
         </Modal.Footer>

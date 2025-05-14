@@ -1,73 +1,129 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../hooks/AuthProvider";
+import DeleteAlert from "./DeleteAlert";
 
-const AddCategory = () => {
+const AddCategory = (props) => {
   const [show, setShow] = useState(false);
-  const [submit, setSubmit] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [categoryDetails, setCategoryDetails] = useState({
-    name: "",
-    image: "",
-  });
 
+  const [errorMessage, setErrorMessage] = useState(null);
   const checkingImageURL = useAuth().checkingImageURL;
+  const [categoryDetails, setCategoryDetails] = useState(
+    props.obj
+      ? { name: props.obj.name, image: props.obj.image }
+      : { name: "", image: "" }
+  );
 
   const handleClose = () => {
     setShow(false);
     setErrorMessage(null);
-    setCategoryDetails({
-      name: "",
-      image: "",
-    });
+    setCategoryDetails(
+      props.obj
+        ? { name: props.obj.name, image: props.obj.image }
+        : { name: "", image: "" }
+    );
   };
   const handleShow = () => setShow(true);
 
-  const handleSave = () => {
-    if (checkingImageURL(categoryDetails.image)) {
-      setSubmit(!submit);
-      setShow(false);
-      setErrorMessage(null);
-    } else {
-      setErrorMessage("Please enter a valid image URL");
-    }
+  const handleSave = async () => {
+    checkingImageURL(categoryDetails.image)
+      ? props.obj
+        ? await fetch(
+            `https://api.escuelajs.co/api/v1/categories/${props.obj.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...categoryDetails,
+                name: [
+                  [...categoryDetails.name][0].toUpperCase(),
+                  [...categoryDetails.name.toLowerCase()].splice(1).join(""),
+                ].join(""),
+              }),
+            }
+          )
+            .then((response) => {
+              if (!response.ok) {
+                console.log(response.message);
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              setShow(false);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Error updating item:", error);
+              setErrorMessage(`Error updating ${error}`);
+            })
+        : fetch(`https://api.escuelajs.co/api/v1/categories/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...categoryDetails,
+              name: [
+                [...categoryDetails.name][0].toUpperCase(),
+                [...categoryDetails.name.toLowerCase()].splice(1).join(""),
+              ].join(""),
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                console.log(response.message);
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              setShow(false);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Error updating item:", error);
+              setErrorMessage(`Error updating ${error}`);
+            })
+      : setErrorMessage("Please enter a valid image URL");
   };
-
-  useEffect(() => {
-    if (!submit) return;
-
-    const creatingCategory = async () => {
-      try {
-        const res = await fetch("https://api.escuelajs.co/api/v1/categories", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(categoryDetails),
-        });
-        if (!res.ok) throw new Error(`Error: ${res.status}`);
-        const data = await res.json();
-        console.log(data);
-        window.location.reload();
-      } catch {}
-    };
-    creatingCategory();
-  }, [categoryDetails, submit]);
 
   return (
     <>
-      <Button
-        variant="outline-dark"
-        className=" text-center btn btn-outline-dark"
-        style={{
-          borderRadius: "5px",
-          padding: "1px 4px",
-          zIndex: "9",
-        }}
-        onClick={handleShow}
-      >
-        <i className="bi bi-plus-square"> Add Category</i>
-      </Button>
+      {props.obj ? (
+        <Button
+          variant="success"
+          onClick={handleShow}
+          style={{
+            position: "absolute",
+            right: "0",
+            top: "0",
+            borderRadius: "5px",
+            padding: "1px 4px",
+            zIndex: "9",
+            boxShadow: "-1.5px 3px 3px #1c2833 ",
+          }}
+        >
+          <i className="bi bi-pencil-square"></i>
+        </Button>
+      ) : (
+        <Button
+          variant="outline-dark"
+          onClick={handleShow}
+          className=" text-center"
+          style={{
+            borderRadius: "5px",
+            padding: "1px 4px",
+            zIndex: "9",
+          }}
+        >
+          <i className="bi bi-plus-square"> Add Category</i>
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="bg-warning">
@@ -76,39 +132,41 @@ const AddCategory = () => {
         <Modal.Body className="bg-warning">
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Category Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="ex Electronics"
-                autoFocus
-                value={categoryDetails.name}
-                onChange={(e) =>
-                  setCategoryDetails({
-                    ...categoryDetails,
-                    name: e.target.value,
-                  })
-                }
-              />
+              <Form.Label className="w-100">
+                Category Name
+                <Form.Control
+                  type="text"
+                  placeholder="ex Electronics"
+                  autoFocus
+                  value={categoryDetails.name}
+                  onChange={(e) =>
+                    setCategoryDetails({
+                      ...categoryDetails,
+                      name: e.target.value,
+                    })
+                  }
+                />
+              </Form.Label>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>
+              <Form.Label className="w-100">
                 Image Link:{" "}
                 <span style={{ fontSize: "12px" }}>
                   &#40;http:// or https:// ..... jpeg-jpg-png-gif &#41;
                 </span>
+                <Form.Control
+                  type="text"
+                  placeholder="ex htt......jpg"
+                  autoFocus
+                  value={categoryDetails.image}
+                  onChange={(e) =>
+                    setCategoryDetails({
+                      ...categoryDetails,
+                      image: e.target.value,
+                    })
+                  }
+                />
               </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="ex htt......jpg"
-                autoFocus
-                value={categoryDetails.image}
-                onChange={(e) =>
-                  setCategoryDetails({
-                    ...categoryDetails,
-                    image: e.target.value,
-                  })
-                }
-              />
             </Form.Group>
           </Form>
           <div
@@ -122,13 +180,22 @@ const AddCategory = () => {
             {errorMessage && errorMessage}
           </div>
         </Modal.Body>
-        <Modal.Footer className="bg-warning">
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="outline-dark" onClick={handleSave}>
-            Save Changes
-          </Button>
+        <Modal.Footer
+          className={
+            props.obj
+              ? "bg-warning d-flex justify-content-between"
+              : "bg-warning d-flex justify-content-end"
+          }
+        >
+          {props.obj && <DeleteAlert obj={props.obj} />}
+          <div>
+            <Button variant="secondary" onClick={handleClose} className="me-2">
+              Close
+            </Button>
+            <Button variant="outline-dark" onClick={handleSave}>
+              {props.obj ? "Update" : "Add Category"}
+            </Button>
+          </div>
         </Modal.Footer>
       </Modal>
     </>

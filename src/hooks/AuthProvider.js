@@ -15,7 +15,7 @@ export default function AuthProvider({ children }) {
 
   const [cart, setCart] = useState([]);
   const [loginError, setLoginError] = useState(null);
-  const [categoriesList, setCategoriesList] = useState([]); //----
+  const [categoriesList, setCategoriesList] = useState([]);
 
   const loginAction = async (obj) => {
     try {
@@ -26,7 +26,10 @@ export default function AuthProvider({ children }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(obj),
+          body: JSON.stringify({
+            ...obj,
+            email: obj.email.toLowerCase(),
+          }),
         }
       );
       if (!response.ok) {

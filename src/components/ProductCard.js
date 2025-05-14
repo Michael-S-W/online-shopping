@@ -56,10 +56,9 @@ const ProductCard = (props) => {
       {globalStore.user && globalStore.user.role === "admin" && (
         <AddProduct obj={props.obj} />
       )}
-      {/* [ SHOW EDIT BUTTON IF USER ROLE IS ADMIN ] */}
+      {/* SHOW EDIT BUTTON IF USER ROLE IS ADMIN ] */}
 
-      {/* -------------------------------------------- */}
-
+      {/* [ IMAGES CAROUSEL */}
       <Carousel interval={null} className="imagesCarousel" data-bs-theme="dark">
         {props.obj.images.map((img, index) => {
           return (
@@ -80,8 +79,8 @@ const ProductCard = (props) => {
           );
         })}
       </Carousel>
+      {/* IMAGES CAROUSEL ] */}
 
-      {/* -------------------------------------------- */}
       <Card.Body
         className="productBody"
         style={{

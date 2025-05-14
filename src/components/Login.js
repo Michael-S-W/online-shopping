@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -10,7 +10,6 @@ function Login() {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  // const [submitLogin, setSubmitLogin] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "john@mail.com",
     password: "changeme",
@@ -38,7 +37,6 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (credentials.email && credentials.password) {
-      // setSubmitLogin(true);
       authLogin(credentials);
     }
   };
