@@ -6,14 +6,11 @@ import { useAuth } from "../hooks/AuthProvider";
 import CategoryCardEdit from "./CategoryCardEdit";
 
 const HomeMultiSlider = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const user = useAuth().user;
+  const categories = useAuth().categoriesList;
 
   const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1024 },
       items: 5,
       slidesToSlide: 5,
@@ -34,28 +31,6 @@ const HomeMultiSlider = () => {
       slidesToSlide: 3,
     },
   };
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://api.escuelajs.co/api/v1/categories"
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setCategories(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <MultiCarousel

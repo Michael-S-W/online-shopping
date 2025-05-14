@@ -11,6 +11,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
+
   let params = useParams();
   let fullURL;
   const baseURL = "https://api.escuelajs.co/api/v1/products";
@@ -60,6 +61,7 @@ const Shop = () => {
       {/* [ Search Bar */}
       <Form className="d-flex text-center mx-auto my-3 flex-grow-1 px-3">
         <Form.Control
+          name="searchbar"
           type="search"
           placeholder="Search"
           className="me-2"
@@ -95,6 +97,7 @@ const Shop = () => {
         {/* ---------------------------------------- */}
         {search === "" &&
           products.map((product, idx) => (
+            // <ProductCard key={idx} obj={product} />
             <ProductCard key={idx} obj={product} />
           ))}
       </div>

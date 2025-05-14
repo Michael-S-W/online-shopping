@@ -12,9 +12,10 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("userData")) || ""
   );
-  // const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
+
   const [cart, setCart] = useState([]);
   const [loginError, setLoginError] = useState(null);
+  const [categoriesList, setCategoriesList] = useState([]); //----
 
   const loginAction = async (obj) => {
     try {
@@ -105,15 +106,35 @@ export default function AuthProvider({ children }) {
       });
   }, []);
 
+  // get access_token from local storage
   useEffect(() => {
     if (localStorage.getItem("tokens")) {
       fetchUserData(JSON.parse(localStorage.getItem("tokens")).access_token);
     }
   }, [fetchUserData]);
 
+  // fetching categories and store it
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          "https://api.escuelajs.co/api/v1/categories"
+        );
+        if (!response.ok) {
+          throw new Error("Error Fetching Categories");
+        }
+        const data = await response.json();
+        setCategoriesList(data);
+      } catch (err) {
+        console.log("Error Fetching categories", err.message);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  //logout user
   const logOut = () => {
     setUser(null);
-    // setTokens("");
     localStorage.removeItem("tokens");
     localStorage.removeItem("userData");
   };
@@ -138,7 +159,6 @@ export default function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        // tokens,
         user,
         loginAction,
         logOut,
@@ -149,6 +169,8 @@ export default function AuthProvider({ children }) {
         checkingImageURL,
         loginError,
         setLoginError,
+        categoriesList,
+        setCategoriesList,
       }}
     >
       {children}

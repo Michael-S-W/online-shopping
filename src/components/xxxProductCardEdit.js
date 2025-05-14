@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import DeleteAlert from "./DeleteAlert";
 import { useAuth } from "../hooks/AuthProvider";
+
 function ProductCardEdit(props) {
   const [show, setShow] = useState(false);
   let newObj = props.obj;

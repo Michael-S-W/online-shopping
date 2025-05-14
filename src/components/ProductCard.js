@@ -1,12 +1,11 @@
 import { useState } from "react";
-import React from "react";
 import { Button, Carousel } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { useAuth } from "../hooks/AuthProvider";
 import "./ProductCard.css";
-import ProductCardEdit from "./ProductCardEdit";
+import AddProduct from "./AddProduct";
 
 const ProductCard = (props) => {
   const globalStore = useAuth();
@@ -53,15 +52,21 @@ const ProductCard = (props) => {
 
   return (
     <Card className="cardsContainder">
+      {/* [ SHOW EDIT BUTTON IF USER ROLE IS ADMIN */}
       {globalStore.user && globalStore.user.role === "admin" && (
-        <ProductCardEdit obj={props.obj} />
+        <AddProduct obj={props.obj} />
       )}
+      {/* [ SHOW EDIT BUTTON IF USER ROLE IS ADMIN ] */}
+
       {/* -------------------------------------------- */}
 
       <Carousel interval={null} className="imagesCarousel" data-bs-theme="dark">
         {props.obj.images.map((img, index) => {
           return (
-            <Carousel.Item key={img}>
+            <Carousel.Item
+              key={img}
+              style={{ height: "100%", overflow: "hidden" }}
+            >
               <img
                 className="d-block w-100"
                 src={
