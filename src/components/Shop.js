@@ -6,6 +6,7 @@ import "./Shop.css";
 import ScrollToTop from "./ScrollToTop";
 import AddProduct from "./AddProduct";
 import { useAuth } from "../hooks/AuthProvider";
+import DropdownCat from "./DropdownCat";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -59,6 +60,7 @@ const Shop = () => {
   return (
     <div>
       {/* [ Search Bar */}
+
       <Form className="d-flex text-center mx-auto my-3 flex-grow-1 px-3">
         <Form.Control
           name="searchbar"
@@ -72,9 +74,10 @@ const Shop = () => {
         <Button variant="outline-dark">Search</Button>
       </Form>
       {/* Searh Bar ] */}
-
       <div className="m-3 d-flex justify-content-between align-items-center">
-        {isLoading ? (
+        {/* <DropdownCat /> */}
+        {isLoading ? <strong>Loading...</strong> : <DropdownCat />}
+        {/* {isLoading ? (
           <strong>Loading...</strong>
         ) : products.length === 0 ? (
           <strong>No Products</strong>
@@ -82,13 +85,14 @@ const Shop = () => {
           <strong>{products[0].category.name}</strong>
         ) : (
           <strong>All Products</strong>
-        )}
+        )} */}
         {user && user.role === "admin" && (
           <span>
             <AddProduct />
           </span>
         )}
       </div>
+
       {/* [ Products Bar */}
 
       <div className="productCard ">
@@ -98,7 +102,7 @@ const Shop = () => {
         {search === "" &&
           products.map((product, idx) => (
             // <ProductCard key={idx} obj={product} />
-            <ProductCard key={idx} obj={product} />
+            <ProductCard key={product.title + idx} obj={product} />
           ))}
       </div>
       <ScrollToTop />

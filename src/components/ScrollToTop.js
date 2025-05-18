@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./ScrollToTop.css";
 
 const ScrollToTop = () => {
@@ -30,23 +30,25 @@ const ScrollToTop = () => {
       id="scrollToTop"
       style={{
         position: "fixed",
-        bottom: "30px",
+        bottom: "50px",
         right: "0px",
-        padding: "8px",
-        fontSize: "30px",
+        padding: "0px",
+        fontSize: "26px",
         fontWeight: "bold",
         cursor: "pointer",
-        borderRadius: "5px 0 0 5px",
+        // borderRadius: "5px 0 0 5px",
         border: "none",
         backgroundColor: "#0d6efd",
         color: "#fff",
         zIndex: 1000,
         width: "40px",
+        height: "40px",
+        borderRadius: "50%",
         transition: "all 0.5s ease",
       }}
       aria-label="Go to top"
     >
-      ↑
+      <i className="bi bi-arrow-up-circle"></i>
     </button>
   );
 };

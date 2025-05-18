@@ -1,5 +1,4 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate } from "react-router";
 
@@ -11,13 +10,10 @@ const Logout = () => {
     navigate("/");
   };
   return (
-    <Button
-      variant="outline-danger"
-      onClick={handleLogout}
-      className="px-2 py-1"
-    >
+    <div variant="outline-danger" onClick={handleLogout} className="w-100">
       <i className="bi bi-box-arrow-right"></i>
-    </Button>
+      <span style={{ textDecoration: "none" }}> Logout </span>
+    </div>
   );
 };
 

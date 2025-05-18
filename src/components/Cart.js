@@ -46,9 +46,9 @@ function Cart() {
       <Button
         variant="outline-dark"
         onClick={handleShow}
-        className="position-relative ms-2"
+        className="position-relative"
       >
-        <i className="bi bi-basket2"></i>
+        <i className="bi bi-basket2"> Cart</i>
         {cart.length > 0 && (
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {cart.length > 0 ? sum : ""}

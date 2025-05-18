@@ -1,57 +1,69 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import shoppingLogo from "../assets/shop-logo.png";
 import { NavLink } from "react-router";
-import shoppingCard from "../assets/shopping-cart.png";
-import "./Navbar.css";
-import Login from "./Login";
 import Cart from "./Cart";
-import { useAuth } from "../hooks/AuthProvider";
-import Logout from "./Logout";
+import "./Navbar.css";
+import Setting from "./Setting";
 
-const MainNavbar = () => {
-  const user = useAuth().user;
+function Navbar() {
   return (
-    <Navbar expand="sm" className="bg-warning rounded">
-      <Container fluid>
-        <Navbar.Brand href="/">
-          <img src={shoppingCard} alt="brand-logo" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "80px" }}
-            navbarScroll
-          >
-            <NavLink to="/" className="btn btn-outline-dark">
-              Home
-            </NavLink>
-            <NavLink to="/shop" className="btn btn-outline-dark">
-              Shop
-            </NavLink>
-            {/* <NavLink to="/cart" className="btn btn-outline-dark">
-              Cart
-            </NavLink> */}
-            <div className="d-flex me-2" id="loginButton">
-              <Cart />
-            </div>
-          </Nav>
-
-          <div className="d-flex me-2" id="loginButton">
-            {user ? (
-              <div className="d-flex justify-centent-center align-items-center gap-2">
-                <div className="text-danger fw-bold">Welcome, {user.name}</div>
-                <Logout />
-              </div>
-            ) : (
-              <Login />
-            )}
+    <>
+      <div id="navbar-container" className="bg-warning container">
+        <div id="navbar-navlinks">
+          <div>
+            <img
+              src={shoppingLogo}
+              alt="Shop Logo"
+              style={{ width: "100px", marginRight: "10px" }}
+            />
           </div>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
-};
+          <NavLink to="/" className="btn btn-outline-dark">
+            Home
+          </NavLink>
+          <NavLink to="/Shop" className="btn btn-outline-dark">
+            Shop
+          </NavLink>
+          <NavLink to="/About" className="btn btn-outline-dark">
+            About
+          </NavLink>
+        </div>
+        <div className="d-flex gap-1">
+          <Cart />
+          {/* <div className="d-flex me-2" id="loginButton">
+          {user ? <Logout /> : <Login />}
+          </div> */}
+          <Setting drop={"down"} />
+        </div>
+      </div>
 
-export default MainNavbar;
+      <div id="navbar-container-sm" className="bg-warning">
+        <NavLink
+          to="/"
+          className="btn btn-outline-dark"
+          style={{ border: "1px solid black", padding: "7px 11px" }}
+        >
+          <i className="bi bi-house"> Home</i>
+        </NavLink>
+        <NavLink
+          to="/Shop"
+          className="btn btn-outline-dark"
+          style={{ border: "1px solid black", padding: "7px 11px" }}
+        >
+          <i className="bi bi-bag"> Shop</i>
+        </NavLink>
+        <NavLink
+          to="/About"
+          className="btn btn-outline-dark"
+          style={{ border: "1px solid black", padding: "7px 11px" }}
+        >
+          <i className="bi bi-info-circle"> About</i>
+        </NavLink>
+        <Cart />
+
+        {/* <div className="d-flex me-2">{user ? <Logout /> : <Login />}</div> */}
+        <Setting drop={"up"} />
+      </div>
+    </>
+  );
+}
+
+export default Navbar;

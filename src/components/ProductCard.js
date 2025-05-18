@@ -63,7 +63,7 @@ const ProductCard = (props) => {
         {props.obj.images.map((img, index) => {
           return (
             <Carousel.Item
-              key={img}
+              key={img + index}
               style={{ height: "100%", overflow: "hidden" }}
             >
               <img

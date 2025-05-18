@@ -4,10 +4,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../hooks/AuthProvider";
 import { useParams } from "react-router";
+import DeleteAlert from "./DeleteAlert";
 
 const AddProduct = (props) => {
-  const urlCategoryId = useParams().categoryId;
   const [show, setShow] = useState(false);
+  const urlCategoryId = useParams().categoryId;
+
   const [productObj, setProductObj] = useState(
     props.obj
       ? {
@@ -25,7 +27,7 @@ const AddProduct = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const checkingImageURL = useAuth().checkingImageURL;
   const categoriesList = useAuth().categoriesList;
-
+  const userRole = useAuth().user.role;
   const handleClose = () => {
     setShow(false);
     setErrorMessage(null);
@@ -167,7 +169,7 @@ const AddProduct = (props) => {
             right: "0",
             top: "0",
             borderRadius: "5px",
-            padding: "1px 4px",
+            // padding: "1px 4px",
             zIndex: "9",
             boxShadow: "-1.5px 3px 3px #1c2833 ",
           }}
@@ -180,9 +182,7 @@ const AddProduct = (props) => {
           onClick={handleShow}
           style={{
             borderRadius: "5px",
-            padding: "1px 4px",
             zIndex: "9",
-            // boxShadow: "1.5px 3px 3px #1c2833 ",
           }}
         >
           <i className="bi bi-plus-square"> Add Product</i>
@@ -320,7 +320,6 @@ const AddProduct = (props) => {
             {/* PRICE ] */}
 
             {/* [ CATEGORY */}
-
             <Form.Label className="w-100">
               Category:
               {(props.obj || urlCategoryId) && (
@@ -364,6 +363,7 @@ const AddProduct = (props) => {
           </Form>
         </Modal.Body>
         <Modal.Footer className="bg-warning d-flex justify-content-end">
+          {userRole === "admin" && <DeleteAlert obj={props.obj} />}
           <div>
             <Button variant="secondary" onClick={handleClose} className="me-2">
               Close

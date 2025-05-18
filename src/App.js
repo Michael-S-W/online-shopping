@@ -5,13 +5,14 @@ import Home from "./components/Home";
 import Cart from "./components/Cart";
 import NotFound from "./components/NotFound";
 import Register from "./components/Register";
+// import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <div className="container">
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
             <Route path="/" exact element={<Home />}></Route>
             <Route path="/shop/:categoryId?" element={<Shop />}></Route>
@@ -20,6 +21,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
+        <Navbar />
       </BrowserRouter>
     </>
   );

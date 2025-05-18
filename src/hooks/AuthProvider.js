@@ -118,6 +118,8 @@ export default function AuthProvider({ children }) {
 
   // fetching categories and store it
   useEffect(() => {
+    // console.log(categoriesList.length);
+    if (categoriesList.length > 0) return;
     const fetchCategories = async () => {
       try {
         const response = await fetch(
@@ -133,7 +135,7 @@ export default function AuthProvider({ children }) {
       }
     };
     fetchCategories();
-  }, []);
+  }, [categoriesList.length]);
 
   //logout user
   const logOut = () => {

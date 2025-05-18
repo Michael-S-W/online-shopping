@@ -11,8 +11,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [credentials, setCredentials] = useState({
-    email: "john@mail.com",
-    password: "changeme",
+    email: "admin@mail.com",
+    password: "compromised123",
   });
   const authLogin = useAuth().loginAction;
   const userEmail = useAuth().user;
@@ -43,9 +43,10 @@ function Login() {
 
   return (
     <>
-      <Button variant="outline-dark" onClick={handleShow}>
-        Login
-      </Button>
+      <div variant="outline-danger" onClick={handleShow} className="w-100">
+        <i className="bi bi-box-arrow-in-right"></i>
+        <span> Login</span>
+      </div>
 
       <Register showRegister={showRegister} setShowRegister={setShowRegister} />
 
@@ -66,7 +67,7 @@ function Login() {
               <Form.Label>
                 Email address:
                 <div style={{ fontSize: "12px" }}>
-                  john@mail.com as customer or admin@mail.com as admin
+                  use john@mail.com as customer or admin@mail.com as admin
                 </div>
               </Form.Label>
               <Form.Control
@@ -87,7 +88,8 @@ function Login() {
               <Form.Label>
                 Password:{" "}
                 <div style={{ fontSize: "12px" }}>
-                  changeme for john@mail.com or admin123 for admin@mail.com
+                  pwned123 for john@mail.com or compromised123 for
+                  admin@mail.com
                 </div>
               </Form.Label>
               <div className="d-flex justify-content-between align-items-center">
@@ -100,13 +102,16 @@ function Login() {
                   placeholder="password"
                   required
                 />
-                <label className="loginPasswordChecker position-absolute ">
+                <label
+                  className="loginPasswordChecker position-absolute "
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   {showPassword ? "Hide" : "Show"}
-                  <input
+                  {/* <input
                     type="checkbox"
-                    onChange={(e) => setShowPassword(!showPassword)}
+                    onClick={() => setShowPassword(!showPassword)}
                     hidden
-                  />
+                  /> */}
                 </label>
               </div>
             </Form.Group>

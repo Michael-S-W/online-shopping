@@ -1,0 +1,31 @@
+a.btn {
+  text-decoration: none !important;
+  color: black !important;
+  padding: 5px 10px;
+  border: none;
+}
+
+a.btn:hover {
+  background-color: #a6742a !important;
+  color: white !important;
+}
+
+a.active {
+  text-decoration: none;
+  background-color: rgb(41, 21, 0) !important;
+  color: white !important;
+}
+
+img {
+  width: 38px;
+}
+
+@media (max-width: 575px) {
+  #loginButton {
+    /* text-align: center; */
+    margin: 10px auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

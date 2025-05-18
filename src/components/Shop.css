@@ -1,7 +1,8 @@
 .productCard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 220px));
-  gap: 5px;
+  gap: 10px;
+  justify-content: center;
 }
 
 @media (max-width: 510px) {

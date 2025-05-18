@@ -10,22 +10,27 @@ function DeleteAlert(props) {
     ? `https://api.escuelajs.co/api/v1/products/${props.obj.id}`
     : `https://api.escuelajs.co/api/v1/categories/${props.obj.id}`;
 
+  // const accessToken = JSON.parse(localStorage.getItem("tokens")).access_token;
+
   const handleDelete = () => {
     fetch(fullUrl, {
       method: "DELETE",
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      //   "Content-Type": "application/json",
+      // },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          console.log(response);
+          console.Error("Network response was not ok");
         }
+        setShow(false);
+        window.location.reload();
         return response.json();
       })
       .then((data) => {
         console.log("Deleted successfully:", data);
-      })
-      .finally(() => {
-        setShow(false);
-        window.location.reload();
       });
   };
 

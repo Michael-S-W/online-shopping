@@ -117,7 +117,6 @@ const AddCategory = (props) => {
           className=" text-center"
           style={{
             borderRadius: "5px",
-            padding: "1px 4px",
             zIndex: "9",
           }}
         >
