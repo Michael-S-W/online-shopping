@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/online-shopping.git/static/css/main.c067d430.css",
-    "main.js": "/online-shopping.git/static/js/main.4ad84b3a.js",
+    "main.js": "/online-shopping.git/static/js/main.470010ad.js",
     "static/js/453.df1d7b8c.chunk.js": "/online-shopping.git/static/js/453.df1d7b8c.chunk.js",
     "static/media/fruits-vegetables.jpg": "/online-shopping.git/static/media/fruits-vegetables.416bfb497d49fdd9656c.jpg",
     "static/media/groceries.jpg": "/online-shopping.git/static/media/groceries.a7a5c649813790e69a3f.jpg",
@@ -16,11 +16,11 @@
     "static/media/revicons.woff": "/online-shopping.git/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/online-shopping.git/index.html",
     "main.c067d430.css.map": "/online-shopping.git/static/css/main.c067d430.css.map",
-    "main.4ad84b3a.js.map": "/online-shopping.git/static/js/main.4ad84b3a.js.map",
+    "main.470010ad.js.map": "/online-shopping.git/static/js/main.470010ad.js.map",
     "453.df1d7b8c.chunk.js.map": "/online-shopping.git/static/js/453.df1d7b8c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c067d430.css",
-    "static/js/main.4ad84b3a.js"
+    "static/js/main.470010ad.js"
   ]
 }
