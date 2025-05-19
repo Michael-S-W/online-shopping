@@ -12,7 +12,6 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("userData")) || ""
   );
-
   const [cart, setCart] = useState([]);
   const [loginError, setLoginError] = useState(null);
   const [categoriesList, setCategoriesList] = useState([]);
@@ -139,9 +138,9 @@ export default function AuthProvider({ children }) {
 
   //logout user
   const logOut = () => {
-    setUser(null);
     localStorage.removeItem("tokens");
     localStorage.removeItem("userData");
+    setUser(null);
   };
 
   const updateCart = (obj) => {

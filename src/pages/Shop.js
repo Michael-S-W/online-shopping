@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useParams } from "react-router";
-import ProductCard from "./ProductCard";
+import ProductCard from "../components/ProductCard";
 import "./Shop.css";
-import ScrollToTop from "./ScrollToTop";
-import AddProduct from "./AddProduct";
+import ScrollToTop from "../components/ScrollToTop";
+import AddProduct from "../components/AddProduct";
 import { useAuth } from "../hooks/AuthProvider";
-import DropdownCat from "./DropdownCat";
+import DropdownCat from "../components/DropdownCat";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -61,7 +61,10 @@ const Shop = () => {
     <div>
       {/* [ Search Bar */}
 
-      <Form className="d-flex text-center mx-auto my-3 flex-grow-1 px-3">
+      <Form
+        name="searchForm"
+        className="d-flex text-center mx-auto my-3 flex-grow-1 px-3"
+      >
         <Form.Control
           name="searchbar"
           type="search"
@@ -71,21 +74,15 @@ const Shop = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button variant="outline-dark">Search</Button>
+        <Button name="searchbarBtn" variant="outline-dark">
+          Search
+        </Button>
       </Form>
       {/* Searh Bar ] */}
       <div className="m-3 d-flex justify-content-between align-items-center">
         {/* <DropdownCat /> */}
         {isLoading ? <strong>Loading...</strong> : <DropdownCat />}
-        {/* {isLoading ? (
-          <strong>Loading...</strong>
-        ) : products.length === 0 ? (
-          <strong>No Products</strong>
-        ) : !isNaN(params.categoryId) ? (
-          <strong>{products[0].category.name}</strong>
-        ) : (
-          <strong>All Products</strong>
-        )} */}
+
         {user && user.role === "admin" && (
           <span>
             <AddProduct />
@@ -99,13 +96,18 @@ const Shop = () => {
         {/* --------------------------------------- */}
         {search !== "" && <SearchResult />}
         {/* ---------------------------------------- */}
-        {search === "" &&
-          products.map((product, idx) => (
-            // <ProductCard key={idx} obj={product} />
-            <ProductCard key={product.title + idx} obj={product} />
-          ))}
+        {(search === "") & (products.length > 0)
+          ? products.map((product, idx) => (
+              <ProductCard key={product.title + idx} obj={product} />
+            ))
+          : !isLoading && (
+              <div className="text-danger text-nowrap">
+                <h4>THIS CATEGORY IS EMPTY</h4>
+              </div>
+            )}
       </div>
       <ScrollToTop />
+
       {/* Products Cards ] */}
     </div>
   );

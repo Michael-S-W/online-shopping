@@ -30,15 +30,14 @@ const ScrollToTop = () => {
       id="scrollToTop"
       style={{
         position: "fixed",
-        bottom: "50px",
-        right: "0px",
+        bottom: "55px",
+        right: "5px",
         padding: "0px",
         fontSize: "26px",
         fontWeight: "bold",
         cursor: "pointer",
-        // borderRadius: "5px 0 0 5px",
         border: "none",
-        backgroundColor: "#0d6efd",
+        backgroundColor: "#dc3545",
         color: "#fff",
         zIndex: 1000,
         width: "40px",

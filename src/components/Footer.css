@@ -1,0 +1,12 @@
+.iconsDiv button,
+.iconsDiv svg {
+  font-size: 24px;
+  transition: text-shadow 0.3s ease;
+}
+
+.iconsDiv button:hover i,
+.iconsDiv button:hover svg {
+  color: #009dff;
+
+  text-shadow: 0 0 10px #ffffff, 0 0 20px #61b5ff, 0 0 30px #009dff;
+}

@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/AuthProvider";
 
 function Cart() {
   const cart = useAuth().cart;
+  const resetCart = useAuth().resetCart;
   const setCart = useAuth().removeItemsFromCart;
   const [show, setShow] = useState(false);
 
@@ -15,7 +16,9 @@ function Cart() {
 
   const handleShow = () => setShow(true);
 
-  const handleCheckout = () => {};
+  const handleCheckout = () => {
+    resetCart([]);
+  };
 
   let newCart = [];
 
@@ -46,7 +49,7 @@ function Cart() {
       <Button
         variant="outline-dark"
         onClick={handleShow}
-        className="position-relative"
+        className="position-relative "
       >
         <i className="bi bi-basket2"> Cart</i>
         {cart.length > 0 && (

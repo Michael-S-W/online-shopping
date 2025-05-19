@@ -10,28 +10,27 @@ function DeleteAlert(props) {
     ? `https://api.escuelajs.co/api/v1/products/${props.obj.id}`
     : `https://api.escuelajs.co/api/v1/categories/${props.obj.id}`;
 
-  // const accessToken = JSON.parse(localStorage.getItem("tokens")).access_token;
-
-  const handleDelete = () => {
-    fetch(fullUrl, {
-      method: "DELETE",
-      // headers: {
-      //   Authorization: `Bearer ${accessToken}`,
-      //   "Content-Type": "application/json",
-      // },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          console.Error("Network response was not ok");
-        }
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(fullUrl, {
+        method: "DELETE",
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        //   "Content-Type": "application/json",
+        // },
+      });
+      if (response.ok) {
+        console.log("Resource deleted successfully");
         setShow(false);
         window.location.reload();
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Deleted successfully:", data);
-      });
+      } else {
+        console.error("CATEGORY ISN'T EMPTY", response.status);
+        props.error("CATEGORY ISN'T EMPTY", response.status);
+        setShow(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

@@ -3,8 +3,11 @@ import { NavLink } from "react-router";
 import Cart from "./Cart";
 import "./Navbar.css";
 import Setting from "./Setting";
+import { useAuth } from "../hooks/AuthProvider";
+import Login from "./Login";
 
 function Navbar() {
+  const user = useAuth().user;
   return (
     <>
       <div id="navbar-container" className="bg-warning container">
@@ -27,11 +30,11 @@ function Navbar() {
           </NavLink>
         </div>
         <div className="d-flex gap-1">
-          <Cart />
+          {user && <Cart />}
           {/* <div className="d-flex me-2" id="loginButton">
           {user ? <Logout /> : <Login />}
           </div> */}
-          <Setting drop={"down"} />
+          {user ? <Setting drop={"down"} /> : <Login />}
         </div>
       </div>
 
@@ -57,10 +60,10 @@ function Navbar() {
         >
           <i className="bi bi-info-circle"> About</i>
         </NavLink>
-        <Cart />
+        {user && <Cart />}
 
         {/* <div className="d-flex me-2">{user ? <Logout /> : <Login />}</div> */}
-        <Setting drop={"up"} />
+        {user ? <Setting drop={"up"} /> : <Login />}
       </div>
     </>
   );

@@ -6,8 +6,8 @@ const Logout = () => {
   const logout = useAuth().logOut;
   const navigate = useNavigate();
   const handleLogout = () => {
-    logout();
     navigate("/");
+    logout();
   };
   return (
     <div variant="outline-danger" onClick={handleLogout} className="w-100">

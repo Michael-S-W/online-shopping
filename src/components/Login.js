@@ -43,7 +43,11 @@ function Login() {
 
   return (
     <>
-      <div variant="outline-danger" onClick={handleShow} className="w-100">
+      <div
+        variant="outline-danger"
+        onClick={handleShow}
+        style={{ cursor: "pointer" }}
+      >
         <i className="bi bi-box-arrow-in-right"></i>
         <span> Login</span>
       </div>

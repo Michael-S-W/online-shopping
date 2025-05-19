@@ -2,16 +2,17 @@ import { useAuth } from "../hooks/AuthProvider";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 const DropdownCat = () => {
   const [category, setCategory] = useState(0);
 
   const categoriesList = useAuth().categoriesList;
   const navigate = useNavigate();
-  let params = window.location.pathname;
+  let params = useParams().categoryId;
   useEffect(() => {
-    if (params.split("/")[2]) {
-      setCategory(Number(params.split("/")[2]));
+    if (params) {
+      setCategory(params);
     } else {
       setCategory(0);
     }
@@ -28,6 +29,7 @@ const DropdownCat = () => {
 
   return (
     <Form.Select
+      name="categorySelect"
       aria-label="Default select example"
       value={category}
       onChange={handleChange}
@@ -37,25 +39,12 @@ const DropdownCat = () => {
 
       {categoriesList.map((cat, idx) => {
         return (
-          <option key={idx + cat.name} value={idx + 1}>
+          <option key={idx + cat.name} value={cat.id}>
             {cat.name}
           </option>
         );
       })}
-      {/* <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option> */}
     </Form.Select>
-
-    // <NavDropdown title="Category" id={`offcanvasNavbarDropdown-expand-sm`}>
-    //   {categoriesList.map((cat, idx) => {
-    //     return (
-    //       <NavDropdown.Item key={idx + cat.name} href={`/shop/` + idx + 1}>
-    //         {cat.name}
-    //       </NavDropdown.Item>
-    //     );
-    //   })}
-    // </NavDropdown>
   );
 };
 

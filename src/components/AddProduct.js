@@ -169,7 +169,6 @@ const AddProduct = (props) => {
             right: "0",
             top: "0",
             borderRadius: "5px",
-            // padding: "1px 4px",
             zIndex: "9",
             boxShadow: "-1.5px 3px 3px #1c2833 ",
           }}
@@ -362,7 +361,7 @@ const AddProduct = (props) => {
             </div>
           </Form>
         </Modal.Body>
-        <Modal.Footer className="bg-warning d-flex justify-content-end">
+        <Modal.Footer className="bg-warning d-flex justify-content-between">
           {userRole === "admin" && <DeleteAlert obj={props.obj} />}
           <div>
             <Button variant="secondary" onClick={handleClose} className="me-2">
@@ -371,7 +370,6 @@ const AddProduct = (props) => {
             <Button
               variant="outline-dark"
               type="submit"
-              // form="addEditProduct"
               onClick={handleAddProduct}
             >
               {props.obj ? "Edit Prodct" : "Add Product"}

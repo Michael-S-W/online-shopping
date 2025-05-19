@@ -186,7 +186,7 @@ const AddCategory = (props) => {
               : "bg-warning d-flex justify-content-end"
           }
         >
-          {props.obj && <DeleteAlert obj={props.obj} />}
+          {props.obj && <DeleteAlert obj={props.obj} error={setErrorMessage} />}
           <div>
             <Button variant="secondary" onClick={handleClose} className="me-2">
               Close
