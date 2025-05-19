@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/online-shopping.git/static/css/main.c067d430.css",
+    "main.js": "/online-shopping.git/static/js/main.4ad84b3a.js",
+    "static/js/453.df1d7b8c.chunk.js": "/online-shopping.git/static/js/453.df1d7b8c.chunk.js",
+    "static/media/fruits-vegetables.jpg": "/online-shopping.git/static/media/fruits-vegetables.416bfb497d49fdd9656c.jpg",
+    "static/media/groceries.jpg": "/online-shopping.git/static/media/groceries.a7a5c649813790e69a3f.jpg",
+    "static/media/cosmetics.jpg": "/online-shopping.git/static/media/cosmetics.fde6ea58a8b593c4f2e2.jpg",
+    "static/media/unavailable-image.png": "/online-shopping.git/static/media/unavailable-image.c99da6af634ed775e178.png",
+    "static/media/home-appliances.jpg": "/online-shopping.git/static/media/home-appliances.7c7a14b8ad3b3aec5979.jpg",
+    "static/media/electronics.jpg": "/online-shopping.git/static/media/electronics.13edeb297375a8650d14.jpg",
+    "static/media/kitchen-appliances.jpg": "/online-shopping.git/static/media/kitchen-appliances.ab0a780e848751ab29e1.jpg",
+    "static/media/shop-logo.png": "/online-shopping.git/static/media/shop-logo.9a48025207275df7ad70.png",
+    "static/media/revicons.eot": "/online-shopping.git/static/media/revicons.a77de540a38981833f9e.eot",
+    "static/media/revicons.ttf": "/online-shopping.git/static/media/revicons.57fd05d4ae650374c8de.ttf",
+    "static/media/revicons.woff": "/online-shopping.git/static/media/revicons.e8746a624ed098489406.woff",
+    "index.html": "/online-shopping.git/index.html",
+    "main.c067d430.css.map": "/online-shopping.git/static/css/main.c067d430.css.map",
+    "main.4ad84b3a.js.map": "/online-shopping.git/static/js/main.4ad84b3a.js.map",
+    "453.df1d7b8c.chunk.js.map": "/online-shopping.git/static/js/453.df1d7b8c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c067d430.css",
+    "static/js/main.4ad84b3a.js"
+  ]
+}
