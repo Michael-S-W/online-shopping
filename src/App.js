@@ -8,11 +8,12 @@ import Register from "./components/Register";
 import Profile from "./pages/Profile";
 import Users from "./pages/Users";
 import About from "./pages/About";
+import { HashRouter } from "react-router";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <div className="container">
           {/* <Navbar /> */}
           <Routes>
@@ -27,7 +28,7 @@ function App() {
           </Routes>
         </div>
         <Navbar />
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
