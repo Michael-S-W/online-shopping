@@ -71,16 +71,7 @@ function Login() {
               <Form.Label>
                 Email address:
                 <div style={{ fontSize: "12px" }}>
-                  {/* use john@mail.com as customer or admin@mail.com as admin */}
-                  register or fetch all users credentials from{" "}
-                  <a
-                    href="https://api.escuelajs.co/api/v1/users"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    here
-                  </a>{" "}
-                  as admin or customer
+                  use john@mail.com as customer or admin@mail.com as admin
                 </div>
               </Form.Label>
               <Form.Control
@@ -101,7 +92,8 @@ function Login() {
               <Form.Label>
                 Password:{" "}
                 <div style={{ fontSize: "12px" }}>
-                  changeme for john@mail.com or admin123 for admin@mail.com
+                  pwned123 for john@mail.com or compromised123 for
+                  admin@mail.com
                 </div>
               </Form.Label>
               <div className="d-flex justify-content-between align-items-center">
