@@ -11,16 +11,19 @@ const Profile = () => {
         width: "100%",
       }}
     >
-      <div className="bg-warning rounded mt-2 text-center ">
+      <div
+        className="bg-warning rounded mt-2 text-center position-relative"
+        style={{ padding: "100px 100px 25px" }}
+      >
         <img
           src={user.avatar}
           alt="your avatar"
           style={{
+            position: "absolute",
             width: "150px",
             height: "150px",
             objectFit: "cover",
             objectPosition: "top",
-            position: "absolute",
             borderRadius: "50%",
             top: "-75px",
             left: "50%",

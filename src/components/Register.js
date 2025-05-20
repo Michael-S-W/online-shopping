@@ -16,6 +16,7 @@ function Register({ showRegister, setShowRegister }) {
     email: "",
     password: "",
     avatar: "",
+    role: "",
   });
   const checkingImageURL = useAuth().checkingImageURL;
 
@@ -55,7 +56,7 @@ function Register({ showRegister, setShowRegister }) {
     })
       .then((response) => {
         if (!response.ok) {
-          errorMessage(
+          setErrorMessage(
             `HTTP error! Status: ${response.status}, ${response.message}`
           );
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -71,10 +72,11 @@ function Register({ showRegister, setShowRegister }) {
             email: "",
             password: "",
             avatar: "",
+            role: "",
           });
           window.location.reload();
           setErrorMessage("");
-        }, 3000);
+        }, 2000);
       })
       .catch((err) => {
         console.log(err);
@@ -124,6 +126,30 @@ function Register({ showRegister, setShowRegister }) {
               </Form.Label>
             </Row>
             {/* Name ] */}
+
+            {/* [ Role */}
+            <Row className="mb-2">
+              <Form.Label className="w-100">
+                Role:{" "}
+                <span style={{ fontSize: "12px" }}>
+                  --Select admin to use all featurs--
+                </span>
+                <Form.Select
+                  type="select"
+                  placeholder="Select Role"
+                  name="Select"
+                  required
+                  value={formData.role}
+                  onChange={(e) => {
+                    setFormData({ ...formData, role: e.target.value });
+                  }}
+                >
+                  <option value="customer">Customer</option>
+                  <option value="admin">Admin</option>
+                </Form.Select>
+              </Form.Label>
+            </Row>
+            {/* Role ] */}
 
             {/* [ EMAIL */}
             <Row className="mb-2">
