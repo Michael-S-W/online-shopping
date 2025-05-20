@@ -70,8 +70,7 @@ function Login() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>
                 Email address:
-                <div style={{ fontSize: "12px" }}>
-                  use john@mail.com as customer or admin@mail.com as admin
+                <div style={{ fontSize: "12px" }}>fetch https://api.escuelajs.co/api/v1/users to get customer or admin user
                 </div>
               </Form.Label>
               <Form.Control
@@ -91,9 +90,7 @@ function Login() {
             >
               <Form.Label>
                 Password:{" "}
-                <div style={{ fontSize: "12px" }}>
-                  pwned123 for john@mail.com or compromised123 for
-                  admin@mail.com
+                <div style={{ fontSize: "12px" }}> 
                 </div>
               </Form.Label>
               <div className="d-flex justify-content-between align-items-center">
