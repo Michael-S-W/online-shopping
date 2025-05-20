@@ -71,7 +71,16 @@ function Login() {
               <Form.Label>
                 Email address:
                 <div style={{ fontSize: "12px" }}>
-                  use john@mail.com as customer or admin@mail.com as admin
+                  {/* use john@mail.com as customer or admin@mail.com as admin */}
+                  register or fetch all users credentials from{" "}
+                  <a
+                    href="https://api.escuelajs.co/api/v1/users"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    here
+                  </a>{" "}
+                  as admin or customer{" "}
                 </div>
               </Form.Label>
               <Form.Control
