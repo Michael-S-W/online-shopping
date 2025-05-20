@@ -12,7 +12,7 @@ function Login() {
   const [showRegister, setShowRegister] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "admin@mail.com",
-    password: "compromised123",
+    password: "admin123",
   });
   const authLogin = useAuth().loginAction;
   const userEmail = useAuth().user;
